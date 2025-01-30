@@ -16,4 +16,10 @@ class Course extends Model
     {
         return $this->belongsToMany(Student::class, 'course_student');
     }
+    
+    // search functionality
+    public static function searchByName($searchTerm)
+{
+    return self::where('course_name', 'like', '%' . $searchTerm . '%')->get();
+}
 }

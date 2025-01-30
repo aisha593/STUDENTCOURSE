@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use App\Models\Student;
 use Illuminate\Http\Request;
-use Masmerise\Toaster\Toaster;
 
 class CourseController extends Controller
 {
@@ -15,6 +13,7 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::paginate(5);
+        
         return view('courses.index',compact('courses'));
     }
 
@@ -30,18 +29,25 @@ class CourseController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        
+{
+    try {
+        // Validate the incoming request
         $validated = $request->validate([
             'course_name' => 'required|string|max:255',
             'description' => 'required|string|max:1000',
         ]);
 
+        // Create a new course
         Course::create($validated);
-        Toaster::success('User created!');
 
-        return redirect('/courses');
+        // Flash a success message to the session
+        return redirect('/')->with('success', 'Course created successfully!');
+    } catch (\Exception $e) {
+        // Flash an error message to the session
+        return redirect('/')->with('error', 'Something went wrong: ' . $e->getMessage());
     }
+}
+
 
     
      /**
@@ -57,35 +63,50 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-       public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $courses = Course::find($id);
-
-        // Validate the request...
-        $validated = $request->validate([
-            'course_name' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
-          
-        ]);
-        
-        $courses->update($validated);
-
-        return redirect('/courses');
+        try {
+            $courses = Course::find($id);
+    
+            // Validate the request...
+            $validated = $request->validate([
+                'course_name' => 'required|string|max:255',
+                'description' => 'required|string|max:1000',
+            ]);
+            
+            // Update the course
+            $courses->update($validated);
+    
+            return redirect('/')->with('success', 'Course updated successfully!');
+        } catch (\Exception $e) {
+            // Log the error message (optional) or handle it
+            \Log::error('Error updating course: ' . $e->getMessage());
+    
+            return redirect('/')->with('error', 'An error occurred while updating the course.');
+        }
     }
 
       /**
      * Remove the specified resource from storage.
      */
-    public function destroy( $id)
+    public function destroy($id)
     {
-         // Find the course and delete it
-    $course = Course::find($id);
-
-        $course->delete();
+        try {
+            // Find the course by ID
+            $course = Course::find($id);
     
-
-        return redirect('/courses');
+            // Delete the course
+            $course->delete();
+    
+            return redirect('/')->with('success', 'Course deleted successfully!');
+        } catch (\Exception $e) {
+            // Log the error (optional)
+            \Log::error('Error deleting course: ' . $e->getMessage());
+    
+            return redirect('/')->with('error', 'An error occurred while deleting the course.');
+        }
     }
+    
 
 
 }

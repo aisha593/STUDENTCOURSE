@@ -4,6 +4,14 @@
         <!-- Table Section -->
            <div>
                 <div class="max-w-[85rem] px-4 py-3 sm:px-6 lg:px-8 lg:py-3 mx-auto">
+
+                    @if (Session::has('success'))
+                    <span class="alert alert-success p-2 text-green-500">{{ Session::get('success') }}</span>
+                @endif
+                @if (Session::has('error'))
+                    <span class="alert alert-danger p-2 text-red-500">{{ Session::get('error') }}</span>
+                @endif
+                
                     <!-- Card -->
                     <div class="flex flex-col">
                 <div class="-m-1.5 overflow-x-auto">
