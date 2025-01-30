@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 
 class CourseStudent extends Controller
 {
-    /**
-     * Display a listing of the resource.
+     /**
+     * Show the form for creating a new resource.
      */
     public function enrollmentForm()
     {
@@ -19,11 +19,9 @@ class CourseStudent extends Controller
         
     }
 
-    /**
-     * Show the form for creating a new resource.
+/**
+     * Store a newly created resource in storage.
      */
-   // In the EnrollController
-
 public function enroll(Request $request)
 {
     // Validate
@@ -36,48 +34,19 @@ public function enroll(Request $request)
     $student = Student::find($request->student_id);
     $student->courses()->attach($request->course_id);
 
-    // return redirect()->route('enroll.index')->with('success', 'Student enrolled successfully!');
-    return redirect('/courses');
+    return redirect('/courses/enrollments');
 }
 
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+/**
+ * Display the enrollment table.
+ */
+public function showEnrollments()
+{
+    // Eager load the courses relationship with the students
+$enrollments = Student::with('courses')->paginate(5);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+    return view('courseenrollment.index', compact('enrollments'));
+}
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

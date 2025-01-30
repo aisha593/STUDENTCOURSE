@@ -21,8 +21,8 @@
                     <div>
                         <!-- Navigation Links -->
                         <a class="text-white" href="/students">Students</a>
-                        <a class="ml-4 text-white" href="/courses">Courses</a>
-                        <a class="ml-4 text-white" href="/courses/enrollment">Course Enrollment</a>
+                        <a class="ml-4 text-white" href="/">Courses</a>
+                        <a class="ml-4 text-white" href="/courses/enrollments">Course Enrollment</a>
                        
                     </div>
                 </div>
