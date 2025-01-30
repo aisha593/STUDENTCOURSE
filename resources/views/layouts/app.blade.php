@@ -15,7 +15,7 @@
                 <div class="flex items-center justify-between">
                     <div class="text-white text-lg">
                         <a href="{{ url('/') }}">
-                            {{ config('app.name', 'Laravel') }}
+                            {{ config('app.name', 'StudentCorseManagement') }}
                         </a>
                     </div>
                     <div>
